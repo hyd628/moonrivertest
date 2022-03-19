@@ -2,7 +2,7 @@ import { FrontierEvmEvent, FrontierEvmCall } from '@subql/contract-processors/di
 import { Approval, Transaction } from "../types";
 import { BigNumber } from "ethers";
 
-type TransferEventArgs = [string, string, BigNumber] & { from: string; to: string; value: BigNumber; };
+type TransferEventArgs = [string, string, BigNumber, BigNumber] & { from: string; to: string; value: BigNumber; maxPriorityFeePerGas};
 type ApproveCallArgs = [string, BigNumber] & { _spender: string; _value: BigNumber; }
 
 export async function handleMoonbeamEvent(event: FrontierEvmEvent<TransferEventArgs>): Promise<void> {
@@ -12,6 +12,7 @@ export async function handleMoonbeamEvent(event: FrontierEvmEvent<TransferEventA
   transaction.from = event.args.from;
   transaction.to = event.args.to;
   transaction.contractAddress = event.address;
+  transaction.maxPriorityFeePerGas = event.args.maxPriorityFeePerGas;
 
   await transaction.save();
 }

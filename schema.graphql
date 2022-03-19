@@ -4,6 +4,7 @@ type Transaction @entity {
   value: BigInt!
   to: String!
   from: String!
+  maxPriorityFeePerGas: BigInt
   contractAddress: String!
 
 }
